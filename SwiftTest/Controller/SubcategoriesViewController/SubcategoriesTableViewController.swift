@@ -9,15 +9,28 @@
 import UIKit
 
 class SubcategoriesTableViewController: UITableViewController {
-
+    
+    var category : NSString?
+    private let contentDataSource = [
+        ["title" : "Shirts and casual", "price" : "$3.00"],
+        ["title" : "Evening Ware", "price" : "$9.00"],
+        ["title" : "Pants & more", "price" : "$13.00"],
+        ["title" : "Wedding Dresses", "price" : "$105.00"],
+        ["title" : "Basics", "price" : "$76.00"],
+        ["title" : "Pants shirts & more", "price" : "$98.00"],
+    ];
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        self.title = self.category
+        
+        let backImage = UIImage(named: "back.png").imageWithRenderingMode(.AlwaysOriginal);
+        
+        let backBarButton = UIBarButtonItem(image: backImage, style: .Bordered, target: self, action: "backButtonPressed:")
+        self.navigationItem.leftBarButtonItem = backBarButton;
+        
+        tableView.tableFooterView = UIView();
     }
 
     override func didReceiveMemoryWarning() {
@@ -27,71 +40,31 @@ class SubcategoriesTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
-        // #warning Potentially incomplete method implementation.
-        // Return the number of sections.
-        return 0
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
     }
 
-    override func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete method implementation.
-        // Return the number of rows in the section.
-        return 0
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.contentDataSource.count
     }
 
-    /*
-    override func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as UITableViewCell
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("subCategoryCellReuseIdentifier", forIndexPath: indexPath) as UITableViewCell
 
-        // Configure the cell...
+        let subcategoryData = contentDataSource[indexPath.row]
+        
+        cell.textLabel?.text = subcategoryData["title"]
+        cell.detailTextLabel?.text = subcategoryData["price"]
 
         return cell
     }
-    */
 
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView!, canEditRowAtIndexPath indexPath: NSIndexPath!) -> Bool {
-        // Return NO if you do not want the specified item to be editable.
-        return true
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView!, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath!) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+    
+    // MARK: - UIBarButtonItem selector
+    func backButtonPressed(sender: UIButton!) {
+        self.navigationController?.popToRootViewControllerAnimated(true);
     }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView!, moveRowAtIndexPath fromIndexPath: NSIndexPath!, toIndexPath: NSIndexPath!) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView!, canMoveRowAtIndexPath indexPath: NSIndexPath!) -> Bool {
-        // Return NO if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
